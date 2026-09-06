@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/head') %>
+        <title>Sign in — Blogify</title>
+</head>
+
+<body>
+    <%- include('./partials/nav') %>
+
+        <div class="auth-shell">
+            <div class="auth-side">
+                <div class="eyebrow">Welcome back</div>
+                <blockquote>"The first draft is just you telling yourself the story."</blockquote>
+                <cite>— Every writer, eventually</cite>
+            </div>
+
+            <div class="auth-form-wrap">
+                <div class="auth-card">
+                    <h1>Sign in</h1>
+                    <p class="sub">Pick up right where you left off.</p>
+
+                    <form action="/user/signin" method="post">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com">
+                        </div>
+                        <div class="mb-4">
+                            <label for="password" class="form-label">Password</label>
+                            <div class="password-wrapper">
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Enter Your Password" required>
+                                <span class="toggle-eye" onclick="togglePassword('password', this)" aria-label="Show password">
+                                    <i class="fa-solid fa-eye-slash"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-blogify w-100">Sign in</button>
+                    </form>
+
+                    <p class="switch-link">New to Blogify? <a href="/user/signup">Create an account</a></p>
+                </div>
+            </div>
+        </div>
+
+        <%- include('./partials/script') %>
+
+        <style>
+            .password-wrapper {
+                position: relative;
+                display: flex;
+                align-items: center;
+            }
+
+            .password-wrapper input {
+                width: 100%;
+                padding-right: 42px;
+            }
+
+            .toggle-eye {
+                position: absolute;
+                right: 12px;
+                top: 50%;
+                transform: translateY(-50%);
+                cursor: pointer;
+                font-size: 18px;
+                user-select: none;
+                color: var(--text-soft);
+                z-index: 2;
+            }
+
+            .toggle-eye:hover {
+                color: var(--text);
+            }
+        </style>
+
+        <script>
+            function togglePassword(fieldId, icon) {
+                const input = document.getElementById(fieldId);
+                const iconEl = icon.querySelector('i');
+
+                if (input.type === "password") {
+                    input.type = "text";
+                    iconEl.classList.remove("fa-eye-slash");
+                    iconEl.classList.add("fa-eye");
+                } else {
+                    input.type = "password";
+                    iconEl.classList.remove("fa-eye");
+                    iconEl.classList.add("fa-eye-slash");
+                }
+            }
+        </script>
+
+</body>
+
+</html>

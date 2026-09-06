@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/head') %>
+        <title>Blogify — Stories worth bookmarking</title>
+</head>
+
+<body>
+    <%- include('./partials/nav') %>
+
+        <section class="blogify-hero">
+            <div class="container">
+                <div class="eyebrow">Est. today &middot; Volume 01</div>
+                <h1>Stories worth <em>bookmarking</em>.</h1>
+                <p class="lead">A quiet corner of the internet for people who like to write things down —
+                    and read the things others have written.</p>
+            </div>
+        </section>
+
+        <section class="blogify-feed">
+            <div class="container">
+                <div class="section-heading">
+                    <h2>Latest posts</h2>
+                    <span>
+                        <%= blog.length %>
+                            <%= blog.length===1 ? 'story' : 'stories' %> published
+                    </span>
+                </div>
+
+                <% if (blog.length===0) { %>
+                    <div class="blogify-empty">
+                        <h3>No stories yet</h3>
+                        <p>Be the first to publish one from the "Add Blog" menu above.</p>
+                    </div>
+                    <% } else { %>
+                        <div class="blog-grid">
+                            <% blog.forEach(post=> { %>
+                                <div class="blog-card">
+                                    <% if (post.coverImageURL) { %>
+                                        <div class="thumb">
+                                            <img src="<%= post.coverImageURL %>" alt="<%= post.title %>">
+                                        </div>
+                                        <% } else { %>
+                                            <div class="thumb no-image">No cover image</div>
+                                            <% } %>
+                                                <div class="blog-card-body">
+                                                    <div class="eyebrow">
+                                                        <%= new Date(post.createdAt).toLocaleDateString('en-US', {
+                                                            month: 'short' , day: 'numeric' , year: 'numeric' }) %>
+                                                    </div>
+                                                    <h3><a href="/blog/<%= post._id %>">
+                                                            <%= post.title %>
+                                                        </a></h3>
+                                                    <p class="excerpt">
+                                                        <%= post.body %>
+                                                    </p>
+                                                    <div class="blog-card-footer">
+                                                        <span class="eyebrow" style="color:var(--text-soft)">
+                                                            <%= post.createdBy && post.createdBy.fullName ? 'By ' +
+                                                                post.createdBy.fullName : '' %>
+                                                        </span>
+                                                        <a class="read-link" href="/blog/<%= post._id %>">Read →</a>
+                                                        <% if ( user && post.createdBy && post.createdBy._id &&
+                                                            post.createdBy._id.toString()===user._id.toString() ) { %>
+                                                            <form action="/blog/<%= post._id %>/delete" method="POST"
+                                                                onsubmit="return confirm('Delete this blog permanently?')">
+                                                                <button class="delete-btn" type="submit"
+                                                                    aria-label="Delete blog">
+                                                                    🗑 Delete
+                                                                </button>
+                                                            </form>
+                                                            <% } %>
+
+
+                                                    </div>
+                                                </div>
+                                </div>
+                                <% }) %>
+                        </div>
+                        <% } %>
+            </div>
+        </section>
+
+        <%- include('./partials/footer') %>
+            <%- include('./partials/script') %>
+</body>
+
+</html>

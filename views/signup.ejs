@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/head') %>
+        <title>Create account — Blogify</title>
+</head>
+
+<body>
+    <%- include('./partials/nav') %>
+
+        <div class="auth-shell">
+            <div class="auth-side">
+                <div class="eyebrow">Join the desk</div>
+                <blockquote>"Somewhere, something incredible is waiting to be written."</blockquote>
+                <cite>— Every blank page, secretly</cite>
+            </div>
+
+            <div class="auth-form-wrap">
+                <div class="auth-card">
+                    <h1>Create account</h1>
+                    <p class="sub">Takes less than a minute. Your first post can wait.</p>
+
+                    <form action="/user/signup" method="post">
+                        <div class="mb-3">
+                            <label for="fullName" class="form-label">Full name</label>
+                            <input type="text" class="form-control" id="fullName" name="fullName"
+                                placeholder="Jane Doe">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="email" name="email"
+                                placeholder="you@example.com" required> 
+                        </div>
+                        <div class="mb-4">
+                            <label for="password" class="form-label">Password</label>
+                            <div class="password-wrapper">
+                                <input type="password" class="form-control" id="password" name="password"
+                                    placeholder="Enter Your Password" required>
+                                <span class="toggle-eye" onclick="togglePassword('password', this)"
+                                    aria-label="Show password">
+                                    <i class="fa-solid fa-eye-slash"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-blogify w-100">Create account</button>
+                    </form>
+
+                    <p class="switch-link">Already have an account? <a href="/user/signin">Sign in</a></p>
+                </div>
+            </div>
+        </div>
+
+        <%- include('./partials/script') %>
+
+            <style>
+                .password-wrapper {
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                }
+
+                .password-wrapper input {
+                    width: 100%;
+                    padding-right: 42px;
+                }
+
+                .toggle-eye {
+                    position: absolute;
+                    right: 12px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    cursor: pointer;
+                    font-size: 18px;
+                    user-select: none;
+                    color: var(--text-soft);
+                    z-index: 2;
+                }
+
+                .toggle-eye:hover {
+                    color: var(--text);
+                }
+            </style>
+
+            <script>
+                function togglePassword(fieldId, icon) {
+                    const input = document.getElementById(fieldId);
+                    const iconEl = icon.querySelector('i');
+
+                    if (input.type === "password") {
+                        input.type = "text";
+                        iconEl.classList.remove("fa-eye-slash");
+                        iconEl.classList.add("fa-eye");
+                    } else {
+                        input.type = "password";
+                        iconEl.classList.remove("fa-eye");
+                        iconEl.classList.add("fa-eye-slash");
+                    }
+                }
+            </script>
+
+
+</body>
+
+</html>

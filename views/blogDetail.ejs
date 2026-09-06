@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/head') %>
+        <title><%= blog.title %> — Blogify</title>
+</head>
+
+<body>
+    <%- include('./partials/nav') %>
+
+        <section class="article-hero">
+            <div class="article-hero-inner">
+                <div class="eyebrow">
+                    <%= new Date(blog.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) %>
+                </div>
+                <h1><%= blog.title %></h1>
+                <div class="article-byline">
+                    <!-- <img src="<%= blog.createdBy && blog.createdBy.userProfileImage ? blog.createdBy.userProfileImage : '/images/useravatar.avif' %>" alt="<%= blog.createdBy ? blog.createdBy.fullName : 'Author' %>"> -->
+                    <!-- <div>
+                        <span class="name"><%= blog.createdBy ? blog.createdBy.fullName : 'Unknown author' %></span>
+                        <span class="meta"><%= comment.length %> <%= comment.length === 1 ? 'comment' : 'comments' %></span>
+                    </div> -->
+                </div>
+            </div>
+        </section>
+
+        <% if (blog.coverImageURL) { %>
+            <div class="article-cover">
+                <img src="<%= blog.coverImageURL %>" alt="<%= blog.title %>">
+            </div>
+        <% } %>
+
+        <div class="article-body-wrap">
+            <div class="article-body"><%= blog.body %></div>
+        </div>
+
+        <div class="article-divider"><hr></div>
+
+        <div class="comments-wrap">
+            <h2>Comments <span class="count"><%= comment.length %></span></h2>
+
+            <% if (locals.user) { %>
+                <form class="comment-form" action="/blog/<%= blog._id %>" method="post">
+                    <input type="text" class="form-control" id="text" name="content" placeholder="Add to the conversation..." required>
+                    <button class="btn btn-blogify" type="submit">Post</button>
+                </form>
+            <% } %>
+
+            <% if (comment.length === 0) { %>
+                <p class="comments-empty">No comments yet — be the first to say something.</p>
+            <% } else { %>
+                <% comment.forEach(item => { %>
+                    <div class="comment-item">
+                        <img src="<%= item.createdBy && item.createdBy.userProfileImage ? item.createdBy.userProfileImage : '/images/useravatar.avif' %>" alt="<%= item.createdBy ? item.createdBy.fullName : 'Commenter' %>">
+                        <div>
+                            <span class="name"><%= item.createdBy ? item.createdBy.fullName : 'Anonymous' %></span>
+                            <pre><%= item.content %></pre>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } %>
+        </div>
+
+        <%- include('./partials/footer') %>
+        <%- include('./partials/script') %>
+</body>
+
+</html>
